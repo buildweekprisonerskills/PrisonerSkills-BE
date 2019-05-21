@@ -12,7 +12,9 @@ const sendUserError = (status, message, res) => {
 };
 
 router.get("/prisonRoute/", async (req, res) => {
-  const id = req.headers.username;
+  // const id = req.headers.username;
+  const id = req.decodedJwt.subject;
+
   console.log(id);
 
   db.usersPrisons(id)
@@ -41,7 +43,8 @@ router.get("/prisonRoute/", async (req, res) => {
 });
 
 router.post("/prisonRoute/", async (req, res) => {
-  const id = req.headers.username;
+  // const id = req.headers.username;
+  const id = req.decodedJwt.subject;
 
   const { prison_name, location, username_id } = req.body;
 
