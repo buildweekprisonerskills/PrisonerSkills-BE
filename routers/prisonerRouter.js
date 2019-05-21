@@ -11,8 +11,11 @@ const sendUserError = (status, message, res) => {
   return;
 };
 
-router.get("/prisonerRoute/", async (req, res) => {
-  const id = req.headers.prison_id;
+router.get("/prisonRoute/prisoners/:id", async (req, res) => {
+  const { id } = req.params;
+  //   const id = req.headers.prison_id;
+  //   const id = req.decodedJwt.subject;
+
   console.log(id);
 
   db.getPrisoners(id)
@@ -24,7 +27,7 @@ router.get("/prisonerRoute/", async (req, res) => {
     });
 });
 
-router.post("/prisonerRoute/", async (req, res) => {
+router.post("/prisonRoute/prisoners/:id", async (req, res) => {
   const { name, skills, description, prison_id } = req.body;
 
   console.log({ prison_id });
