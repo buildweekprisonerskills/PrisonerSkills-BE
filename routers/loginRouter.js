@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const db = require("./users-model");
+
 const secrets = require("../config/secrets");
 
 const router = express.Router();
@@ -20,9 +21,11 @@ router.post("/login", (req, res) => {
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
-        res.status(200).json({ message: `Welcome ${user.username}!`, token });
+        res.status(200).json({
+          token
+        });
       } else {
-        sendUserError(401, "Your login is incorrect.", res);
+        sendUserError(401, "Invalid Credentials.", res);
       }
     })
     .catch(error => {
@@ -36,7 +39,7 @@ function generateToken(user) {
     username: user.username
   };
   const options = {
-    expiresIn: "24h"
+    expiresIn: "1d"
   };
   return jwt.sign(payload, secrets.jwtSecret, options);
 }

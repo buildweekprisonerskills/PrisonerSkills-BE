@@ -8,7 +8,9 @@ const jwt = require("jsonwebtoken");
 
 const registerRouter = require("./routers/registerRouter");
 const loginRouter = require("./routers/loginRouter");
-const usersRouter = require("./routers/usersRouter");
+const prisonRoute = require("./routers/prisonRoute");
+const prisonerRoute = require("./routers/prisonerRouter");
+
 const secrets = require("./config/secrets");
 
 const server = express();
@@ -26,7 +28,8 @@ server.use(
   registerRouter,
   loginRouter,
   authenticationMiddleware,
-  usersRouter
+  prisonRoute,
+  prisonerRoute
 );
 
 function authenticationMiddleware(req, res, next) {
@@ -34,7 +37,9 @@ function authenticationMiddleware(req, res, next) {
 
   jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
     if (err) {
-      res.status(400).json({ message: "YOU SHALL NOT PASS!" });
+      res
+        .status(400)
+        .json({ message: "You need to login to register a prison." });
     } else {
       req.decodedToken = decodedToken;
       next();
