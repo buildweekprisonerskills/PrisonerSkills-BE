@@ -10,7 +10,8 @@ module.exports = {
   usersPrisons,
   addUserPrison,
   getPrisoners,
-  addPrisoner
+  addPrisoner,
+  getAllPrisons
 };
 
 function find() {
@@ -64,4 +65,8 @@ async function addPrisoner(prisonerInfo) {
 
 function getPrisoners(id) {
   return db("prisoners").where("prisoners.prison_id", "=", `${id}`);
+}
+
+function getAllPrisons() {
+  return db("prisons");
 }
