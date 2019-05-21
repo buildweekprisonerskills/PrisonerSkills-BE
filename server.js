@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 
 const registerRouter = require("./routers/registerRouter");
 const loginRouter = require("./routers/loginRouter");
+const allPrisonsRoute = require("./routers/allPrisonsRoute");
 const prisonRoute = require("./routers/prisonRoute");
 const prisonerRoute = require("./routers/prisonerRouter");
 
@@ -27,6 +28,7 @@ server.use(
   "/api/",
   registerRouter,
   loginRouter,
+  allPrisonsRoute,
   authenticationMiddleware,
   prisonRoute,
   prisonerRoute
