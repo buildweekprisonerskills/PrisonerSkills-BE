@@ -44,8 +44,7 @@ function authenticationMiddleware(req, res, next) {
         .json({ message: "You need to login to register a prison." });
     } else {
       req.decodedToken = decodedToken;
-      console.log(req);
-      console.log(decodedToken);
+
       next();
     }
   });

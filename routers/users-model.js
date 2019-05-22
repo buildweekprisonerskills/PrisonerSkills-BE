@@ -9,12 +9,15 @@ module.exports = {
   updatePrison,
   prisonList,
   usersPrisons,
+  usersPrisonsWithPrisoners,
   addUserPrison,
   getPrisoners,
   addPrisoner,
   removePrisoner,
   updatePrisoner,
-  getAllPrisons
+  getAllPrisons,
+  usersPrisonsWithListPrisoners,
+  appendingPrisonersToPrisons
 };
 
 async function register(user) {
@@ -62,6 +65,32 @@ function usersPrisons(id) {
   return db("prisons").where("prisons.username_id", "=", `${id}`);
 }
 
+function usersPrisonsWithPrisoners(id) {
+  return db("prisons")
+    .join("prisoners", "prisons.id", "=", "prisoners.prison_id")
+    .where("prisons.username_id", "=", `${id}`);
+}
+
+function usersPrisonsWithListPrisoners(id) {
+  return db("prisons")
+    .where({ id })
+    .then(prison => {
+      if (prison.length) {
+        db("prisoners")
+          .where("prisons.username_id", "=", "prisoners.prison_id")
+          .then(prisoners => {
+            res.status(200).json({ prison, prisoners });
+          })
+          .catch(error => {
+            res.status(500).json(error);
+          });
+      }
+    })
+    .catch(error => {
+      res.status(500).json("error on the first part");
+    });
+}
+
 async function addUserPrison(prisonInfo) {
   const [id] = await db("prisons").insert(prisonInfo);
 
@@ -92,4 +121,21 @@ function getPrisoners(id) {
 
 function getAllPrisons() {
   return db("prisons");
+}
+
+function appendingPrisonersToPrisons(prisons) {
+  prisons.forEach(() => {
+    if (prisons.length) {
+      db("prisoners")
+        .where("prisoners.prison_id", "=", "prison.id")
+        .then(prisoners => {
+          // console.log(prisoners);
+          res.status(200).json({ ...prisons, prisoners: prisoners });
+        })
+        .catch(error => {
+          // console.log(error);
+          res.status(500).json("error");
+        });
+    }
+  });
 }

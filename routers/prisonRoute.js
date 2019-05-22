@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const db = require("./users-model");
+const db2 = require("../database/dbConfig");
 
 const router = express.Router();
 
@@ -11,19 +12,43 @@ const sendUserError = (status, message, res) => {
   return;
 };
 
-router.get("/prisonRoute/", async (req, res) => {
+router.get("/prisonRoute/",  (req, res) => {
   // const id = req.headers.username;
   const id = req.decodedToken.subject;
+  var newArray = []
+  return db2("prisons")
+    .where("prisons.username_id", "=", `${id}`)
+    .then(prison => {
+      if (prison.length) {
+        prison.forEach(function(element) {
+          db2("prisoners")
+            .where("prisoners.prison_id", "=", element.id)
+            .then(prisoners => {
+              newArray.push({ ...element, prisoners: prisoners });
+              console.log(newArray);
+              // return newArray;
+            })
+            .catch(error => {
+              console.log(error);
+              res.status(500).json("error");
+            });
+          });
+        }
+        res.status(200).json(newArray);
 
-  console.log("this is getting called accidentally");
+        console.log("************* Where Is this showing up? **************", newArray)
 
-  db.usersPrisons(id)
-    .then(info => {
-      res.json(info);
     })
-    .catch(err => {
-      sendUserError(500, "This is the error", res);
+    .catch(error => {
+      res.status(500).json(error);
     });
+  // db.usersPrisonsWithListPrisoners(id)
+  //   .then(info => {
+  //     res.json(info);
+  //   })
+  //   .catch(err => {
+  //     sendUserError(500, "This is the error", res);
+  //   });
 });
 
 router.post("/prisonRoute/", async (req, res) => {
