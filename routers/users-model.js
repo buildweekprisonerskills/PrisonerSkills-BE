@@ -2,25 +2,19 @@ const db = require("../database/dbConfig");
 
 module.exports = {
   register,
-  find,
-  findBy,
   findByID,
   addPrison,
+  removePrison,
+  updatePrison,
   prisonList,
   usersPrisons,
   addUserPrison,
   getPrisoners,
   addPrisoner,
+  removePrisoner,
+  updatePrisoner,
   getAllPrisons
 };
-
-function find() {
-  return db("users").select("id", "username");
-}
-
-function findBy(filter) {
-  return db("users").where(filter);
-}
 
 async function register(user) {
   const [id] = await db("users").insert(user);
@@ -38,6 +32,18 @@ async function addPrison(prison) {
   const [id] = await db("prisons").insert(prison);
 
   return findByID(id, "prisons");
+}
+
+function removePrison(id) {
+  return db("prisons")
+    .where("id", id)
+    .del();
+}
+
+function updatePrison(id, changes) {
+  return db("prisons")
+    .where({ id })
+    .update(changes);
 }
 
 function prisonList() {
@@ -61,6 +67,18 @@ async function addPrisoner(prisonerInfo) {
   const [id] = await db("prisoners").insert(prisonerInfo);
 
   return findByID(id, "prisoners");
+}
+
+function removePrisoner(id) {
+  return db("prisoners")
+    .where("id", id)
+    .del();
+}
+
+function updatePrisoner(id, changes) {
+  return db("prisoners")
+    .where({ id })
+    .update(changes);
 }
 
 function getPrisoners(id) {
