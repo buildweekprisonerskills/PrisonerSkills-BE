@@ -2,6 +2,7 @@ const db = require("../database/dbConfig");
 
 module.exports = {
   register,
+  findBy,
   findByID,
   addPrison,
   removePrison,
@@ -20,6 +21,10 @@ async function register(user) {
   const [id] = await db("users").insert(user);
 
   return findByID(id, "users");
+}
+
+function findBy(filter) {
+  return db("users").where(filter);
 }
 
 function findByID(id, table) {

@@ -90,6 +90,22 @@ router.post("/prisonRoute/prisoners/:id", async (req, res) => {
     });
 });
 
+router.get("/specificPrisoner/:id", (req, res) => {
+  const { id } = req.params;
+  db.findByID(id, "prisoners")
+    .then(prisoner => {
+      res.status(200).json(prisoner);
+    })
+    .catch(err => {
+      sendUserError(
+        404,
+        "The prisoner's information could not be found.",
+        error
+      );
+      return;
+    });
+});
+
 router.delete("/specificPrisoner/:id", (req, res) => {
   const { id } = req.params;
   const userID = req.decodedToken.subject;
