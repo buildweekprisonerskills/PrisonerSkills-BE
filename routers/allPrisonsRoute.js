@@ -21,10 +21,18 @@ router.get("/allPrisonsRoute/", async (req, res) => {
     });
 });
 
+router.get("/allPrisonsRoute/prisoners/", async (req, res) => {
+  db.getPrisoners()
+    .then(info => {
+      res.json(info);
+    })
+    .catch(err => {
+      sendUserError(500, "Error on getting ALL prisoners", res);
+    });
+});
+
 router.get("/allPrisonsRoute/prisoners/:id", async (req, res) => {
   const { id } = req.params;
-  //   const id = req.headers.prison_id;
-  //   const id = req.decodedJwt.subject;
 
   console.log(id);
 

@@ -12,6 +12,7 @@ module.exports = {
   usersPrisonsWithPrisoners,
   addUserPrison,
   getPrisoners,
+  getPrisonersByID,
   addPrisoner,
   removePrisoner,
   updatePrisoner,
@@ -115,7 +116,11 @@ function updatePrisoner(id, changes) {
     .update(changes);
 }
 
-function getPrisoners(id) {
+function getPrisoners() {
+  return db("prisoners");
+}
+
+function getPrisonersByID(id) {
   return db("prisoners").where("prisoners.prison_id", "=", `${id}`);
 }
 
