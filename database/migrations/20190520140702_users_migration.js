@@ -51,6 +51,116 @@ exports.up = function(knex, Promise) {
         .inTable("prisons")
         .onDelete("RESTRICT")
         .onUpdate("CASCADE");
+    })
+    .createTable("prisoners2", prisoners => {
+      // the tracks table must be created before this table is created
+      prisoners.increments();
+
+      prisoners
+        .string("name", 128)
+        .notNullable()
+        .unique();
+
+      prisoners.string("skills", 256).notNullable();
+
+      prisoners.string("description", 1000).notNullable();
+
+      prisoners
+        .integer("prison_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("prisons")
+        .onDelete("RESTRICT")
+        .onUpdate("CASCADE");
+    })
+    .createTable("prisoners3", prisoners => {
+      // the tracks table must be created before this table is created
+      prisoners.increments();
+
+      prisoners
+        .string("name", 128)
+        .notNullable()
+        .unique();
+
+      prisoners.string("skills", 256).notNullable();
+
+      prisoners.string("description", 1000).notNullable();
+
+      prisoners
+        .integer("prison_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("prisons")
+        .onDelete("RESTRICT")
+        .onUpdate("CASCADE");
+    })
+    .createTable("prisoners4", prisoners => {
+      // the tracks table must be created before this table is created
+      prisoners.increments();
+
+      prisoners
+        .string("name", 128)
+        .notNullable()
+        .unique();
+
+      prisoners.string("skills", 256).notNullable();
+
+      prisoners.string("description", 1000).notNullable();
+
+      prisoners
+        .integer("prison_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("prisons")
+        .onDelete("RESTRICT")
+        .onUpdate("CASCADE");
+    })
+    .createTable("prisoners5", prisoners => {
+      // the tracks table must be created before this table is created
+      prisoners.increments();
+
+      prisoners
+        .string("name", 128)
+        .notNullable()
+        .unique();
+
+      prisoners.string("skills", 256).notNullable();
+
+      prisoners.string("description", 1000).notNullable();
+
+      prisoners
+        .integer("prison_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("prisons")
+        .onDelete("RESTRICT")
+        .onUpdate("CASCADE");
+    })
+    .createTable("prisoners6", prisoners => {
+      // the tracks table must be created before this table is created
+      prisoners.increments();
+
+      prisoners
+        .string("name", 128)
+        .notNullable()
+        .unique();
+
+      prisoners.string("skills", 256).notNullable();
+
+      prisoners.string("description", 1000).notNullable();
+
+      prisoners
+        .integer("prison_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("prisons")
+        .onDelete("RESTRICT")
+        .onUpdate("CASCADE");
     });
 };
 

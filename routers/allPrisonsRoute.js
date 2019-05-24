@@ -36,7 +36,7 @@ router.get("/allPrisonsRoute/prisoners/:id", async (req, res) => {
 
   console.log(id);
 
-  db.getPrisoners(id)
+  db.getPrisonersByID(id)
     .then(info => {
       res.json(info);
     })
